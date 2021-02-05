@@ -1,0 +1,299 @@
+{
+    "buttonsPerRaw": 15,
+    "verticalGap": 1, 
+    "horizontalGap": 1, 
+    "buttonsSize": {
+        "w": 70,
+        "h": 40
+    },
+    "buttons": [
+        {
+            "command": "REBOOT",
+            "txt": "RBT",
+            "byte": "04"
+        },
+        {
+            "command": "TX",
+            "txt": "TX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "PLD_Q",
+            "txt": "PLQ",
+            "byte": "FFFF"
+        },
+        {
+            "command": "TX_Q",
+            "txt": "TXQ",
+            "byte": "FFFF"
+        },
+        {
+            "command": "F_Q",
+            "txt": "FQ",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        },
+        {
+            "command": "RX",
+            "txt": "RX",
+            "byte": "FFFF"
+        }
+    ],
+    "input": {
+        "command_name":{
+            "size": {
+                "w": 70,
+                "h": 25
+            },
+            "padding": 10
+        },
+        "command_text": {
+            "size":{
+                "w": 80,
+                "h": 25
+            },
+            "padding": 8
+        },
+        "send_button": {
+            "size":{
+                "w": 70, 
+                "h": 25
+            },
+            "txt": "SEND",
+            "padding": 0
+        },
+        "padding": 40
+    },
+    "log": {
+        "padding": 40
+    }
+}

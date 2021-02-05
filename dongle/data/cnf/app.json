@@ -1,0 +1,41 @@
+{
+    "title": "Dongle App",
+    "size":{
+        "x": 1280,
+        "y": 720
+    },
+    "info":{
+        "vers": "alpha v0.1",
+        "OS": "Windows",
+        "Commit": "ea58978",
+        "Date": "29-01-2021",
+        "wxPython": "4.1.1 msw (phoenix) wxWidgets 3.1.5",
+        "Python": "3.6.8",
+        "web": "https://www.bhdynamics.info/"
+    },
+    "devices":[
+        {
+            "name": "DynOSSAT OBC",
+            "VID": "0x04D8", 
+            "PID": "0xEAD2" 
+        },
+        {
+            "name": "Arduino",
+            "VID": "0x2341", 
+            "PID": "0x0043"
+        },
+        {
+            "name": "DynaLoRa-USBA",
+            "VID": "0x04D8",
+            "PID": "0xEA2A"
+        }
+    ], 
+    "urls": {
+        "report": "https://www.bhdynamics.info/contacto",
+        "tutorials": {
+            "dongle": "https://www.bhdynamics.info/",
+            "dynosat": "https://www.bhdynamics.info/examples-dynossat",
+            "app": "https://github.com/BHDynamics/dongle-app"
+        }
+    }
+}
