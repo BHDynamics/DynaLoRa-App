@@ -135,22 +135,23 @@ class Device:
         for e in list(lp.comports()):
             # Get the vid and pid from the device
             info = e.hwid.split()
-            nStr = re.split(":|=", info[1])
-            vid = bytes.fromhex(nStr[2])
-            pid = bytes.fromhex(nStr[3])
+            if("VID:PID" in info):
+                nStr = re.split(":|=", info[1])
+                vid = bytes.fromhex(nStr[2])
+                pid = bytes.fromhex(nStr[3])
 
-            # Check values with registered devices
-            for dev in self._devices:
-                if(self._devices[dev]["VID"] == vid and self._devices[dev]["PID"] == pid):
-                    # Save port and end loops
-                    try:
-                        ser = serial.Serial(e.name, 115200, timeout=1)
-                        self._port = e.name
-                        print(self._port)
-                        ser.close()
-                        break
-                    except serial.SerialException as e:
-                        pass
+                # Check values with registered devices
+                for dev in self._devices:
+                    if(self._devices[dev]["VID"] == vid and self._devices[dev]["PID"] == pid):
+                        # Save port and end loops
+                        try:
+                            ser = serial.Serial(e.name, 115200, timeout=1)
+                            self._port = e.name
+                            print(self._port)
+                            ser.close()
+                            break
+                        except serial.SerialException as e:
+                            pass
                         
     
     # Connection checking  
