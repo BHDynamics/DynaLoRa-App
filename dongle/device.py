@@ -159,6 +159,7 @@ class Device:
                                 ser.close()
                                 break
                             except serial.SerialException as e:
+                                print(e)
                                 pass
                         
     
