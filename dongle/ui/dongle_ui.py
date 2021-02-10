@@ -78,7 +78,8 @@ class Dongle(bUI.BasicUI):
         self._create_log(self._conf["log"])
         
         # Add BoxSizer to panel
-        self._mainPanel.SetSizer(self._mainSizer)
+        #self._mainPanel.SetSizer(self._mainSizer)
+        self._mainPanel.SetSizerAndFit(self._mainSizer)
         
     def __place_buttons(self, bSize, buttons):
         """
@@ -103,7 +104,7 @@ class Dongle(bUI.BasicUI):
                          nButton)
             
             # And add it to the Grid
-            self._buttonGrid.Add(nButton)
+            self._buttonGrid.Add(nButton, 0, wx.LEFT | wx.RIGHT, 5)
 
     #------------------------------------------------
     #--------------------Private---------------------
