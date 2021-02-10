@@ -101,7 +101,10 @@ class Device:
             self._connected = True
             
             # Connect and etc.
-            self._device = serial.Serial(self._port, 115200, timeout=1)
+            try:
+                self._device = serial.Serial(self._port, 115200, timeout=1)
+            except serial.SerialException as e:
+                print(e)
             
             # Begin connection thread to manage readings
             self._stopEvent = threading.Event()
@@ -157,6 +160,7 @@ class Device:
                                 self._port = e.name
                                 print(self._port)
                                 ser.close()
+                                print("Everything is fine for now")
                                 break
                             except serial.SerialException as e:
                                 print(e)
