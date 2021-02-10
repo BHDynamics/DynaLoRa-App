@@ -138,13 +138,19 @@ class Device:
             print(info)
             for d in info:
                 if("VID:PID" in d):
+                    print(d)
                     nStr = re.split(":|=", info[1])
                     vid = bytes.fromhex(nStr[2])
                     pid = bytes.fromhex(nStr[3])
+                    
+                    print(vid)
+                    print(pid)
 
                     # Check values with registered devices
                     for dev in self._devices:
+                        print(dev)
                         if(self._devices[dev]["VID"] == vid and self._devices[dev]["PID"] == pid):
+                            print("Device correct")
                             # Save port and end loops
                             try:
                                 ser = serial.Serial(e.name, 115200, timeout=1)
