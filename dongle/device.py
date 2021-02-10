@@ -157,7 +157,7 @@ class Device:
                             print("Device correct")
                             # Save port and end loops
                             try:
-                                print(e.name)
+                                print("Nombre del dispositivo " + e.name)
                                 ser = serial.Serial(e.name, 115200, timeout=1)
                                 self._port = e.name
                                 print(self._port)
