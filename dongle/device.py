@@ -135,6 +135,7 @@ class Device:
         for e in list(lp.comports()):
             # Get the vid and pid from the device
             info = e.hwid.split()
+            print(info)
             for d in info:
                 if("VID:PID" in d):
                     nStr = re.split(":|=", info[1])
