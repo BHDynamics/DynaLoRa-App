@@ -159,9 +159,10 @@ class Device:
                             try:
                                 print("Nombre del dispositivo " + e.name)
                                 tempPort = e.name 
-                                if "tty" in tempPort: 
+                                if "tty" in tempPort:
+                                    print("Estamos en linux, añadamos cosos") 
                                     tempPort = "/dev/" + tempPort
-                                ser = serial.Serial(e.name, 115200, timeout=1)
+                                ser = serial.Serial(tempPort, 115200, timeout=1)
                                 self._port = tempPort
                                 print(self._port)
                                 ser.close()
