@@ -157,13 +157,9 @@ class Device:
                             print("Device correct")
                             # Save port and end loops
                             try:
-                                print("Nombre del dispositivo " + e.name)
-                                tempPort = e.name 
-                                if "tty" in tempPort:
-                                    print("Estamos en linux, añadamos cosos") 
-                                    tempPort = "/dev/" + tempPort
-                                ser = serial.Serial(tempPort, 115200, timeout=1)
-                                self._port = tempPort
+                                print("Dispositivo: " + e.device)
+                                ser = serial.Serial(e.device, 115200, timeout=1)
+                                self._port = e.device
                                 print(self._port)
                                 ser.close()
                                 print("Everything is fine for now")
