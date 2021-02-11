@@ -71,6 +71,7 @@ class Dongle(bUI.BasicUI):
         # Set checkbox 
         temp = wx.BoxSizer(wx.HORIZONTAL)
         self._traceType = wx.CheckBox(self._mainPanel, label="String-type trace")
+        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
         temp.Add(self._traceType, flag=wx.LEFT)
         self._mainSizer.Add(temp, flag=wx.LEFT, border=self._conf["log"]["padding"])
         
@@ -136,7 +137,7 @@ class Dongle(bUI.BasicUI):
         self._commandNameCtrl.SetValue(data[0])
         
         self._commandParamsCtrl.SetValue("")
-        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_UNCHECKED))
+        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
         
     #------------------------------------------------
     #----------------Event Handling------------------

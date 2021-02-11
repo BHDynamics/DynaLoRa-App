@@ -203,7 +203,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnOpen, logOpener)
         
         # Create, add and bind "Save" option
-        logSaver = self._fileMenu.Append(wx.ID_SAVE, "&Save Log", "Saves the actual log into a file.")
+        logSaver = self._fileMenu.Append(wx.ID_SAVE, "&Save Log", "Saves current log into a file at " + self._fileSaver.GetSavingDir())
         self.Bind(wx.EVT_MENU, self.OnSave, logSaver)
         
         # Create, add and bind "Save As" option
@@ -405,7 +405,7 @@ class MainFrame(wx.Frame):
         Args:
             event (EVT_SERIALCE): [description]
         """
-        dlg = wx.MessageDialog(self, "Something went wrong while connecting. Try rebooting the device.")
+        dlg = wx.MessageDialog(self, "Something went wrong with serial connection.")
         dlg.ShowModal()
         dlg.Destroy()
         self._deviceInstance = None 
@@ -694,7 +694,7 @@ class MainFrame(wx.Frame):
             event (wxEvent): Closing event
         """
         # Check if some device is connected
-        if self._deviceInstance:
+        if self._deviceInstance and self._deviceInstance._connected:
             self._deviceInstance.close()
             self._deviceInstance = None
         

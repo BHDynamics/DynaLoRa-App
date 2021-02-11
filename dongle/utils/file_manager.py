@@ -3,6 +3,7 @@
 import os
 import time 
 import rapidjson
+import errno
 
 t = time.localtime()
 currentTime = time.strftime("%Y%m%d", t)
@@ -19,7 +20,7 @@ class Opener:
     def OpenFile(self, dirname, filename):
         """
         This function opens a file and returns it 
-        as a file type variable.
+        as a file type variable. 
 
         Args:
             dirname (str): Directory name
@@ -92,7 +93,17 @@ class Saver:
     
     def __init__(self):
         # Get the path where all data savings and configs will go
-        self._savingDir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/logs'))
+        self._savingDir = os.path.abspath(os.path.join(os.path.expanduser(os.getenv('USERPROFILE')), 'BHDYN/DynaLoRa-USBa/data/logs'))
+        if not os.path.exists(os.path.dirname(self._savingDir)):
+            try:
+                os.makedirs(os.path.dirname(self._savingDir))
+            except OSError as exc:
+                if exc.errno != errno.EEXIST:
+                    raise
+        print(self._savingDir)
+        
+    def GetSavingDir(self):
+        return self._savingDir
         
     def SaveTextLog(self, data):
         """
@@ -104,8 +115,10 @@ class Saver:
         """
         # Get time for creating a fileName
         t = time.localtime()
-        currentTime = time.strftime("%Y%m%d", t) + ".log"
+        currentTime = time.strftime("%Y%m%d%H%M%S", t) + ".log"
         fileDir = os.path.join(self._savingDir, currentTime)
+        
+        print(fileDir)
         
         # Then open file and dump data into it
         d = "".join(data)
