@@ -336,7 +336,7 @@ class Device:
         try:
             self._device.inWaiting()
             return True
-        except serial.SerialException as e:
+        except Exception as e:
             print(e)
             return False
         
