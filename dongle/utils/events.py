@@ -3,7 +3,7 @@ import wx.lib.newevent as ne
 
 # Serial CONNECTION events
 SerialCTrue, EVT_SERIALC = ne.NewEvent()
-SerialCFalse, EVT_SERIALCE = ne.NewEvent()
+SerialCError, EVT_SERIALCE = ne.NewEvent()
 SerialCDisconnect, EVT_SERIALD = ne.NewEvent()
 SERIALC = wx.NewEventType()
 

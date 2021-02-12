@@ -82,7 +82,10 @@ class BasicUI:
         Args:
             line (str): Line to write on the log.
         """
-        self._logCtrl.write(newLine) 
+        self._logCtrl.SetReadOnly(False)
+        self._logCtrl.write(newLine)
+        self._logCtrl.SetReadOnly(True)
+        self._logCtrl.ScrollLines(1)
 #endregion  
    
 #region UI
@@ -161,7 +164,8 @@ class BasicUI:
         
         # Add console and Log
         self._logSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self._logCtrl = stc.StyledTextCtrl(self._mainPanel, wx.ID_ANY, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH, name=stc.STCNameStr)
+        self._logCtrl = stc.StyledTextCtrl(self._mainPanel, wx.ID_ANY, style=wx.TE_READONLY | wx.TE_MULTILINE | wx.TE_RICH, name=stc.STCNameStr)
+        self._logCtrl.SetReadOnly(True)
         self._logSizer.Add(self._logCtrl, proportion=1, flag=wx.EXPAND)
         self._mainSizer.Add(self._logSizer, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=logData["padding"])
         # Add some space at the end

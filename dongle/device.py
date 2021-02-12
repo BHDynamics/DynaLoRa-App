@@ -39,7 +39,7 @@ class Device:
     """
 #region Variables
     # Device connected 
-    _device = None
+    _device: serial.Serial = None
     
     # Connection status
     _connected = False
@@ -101,7 +101,10 @@ class Device:
             self._connected = True
             
             # Connect and etc.
-            self._device = serial.Serial(self._port, 115200, timeout=1)
+            try:
+                self._device = serial.Serial(self._port, 115200, timeout=1)
+            except serial.SerialException as e:
+                print(e)
             
             # Begin connection thread to manage readings
             self._stopEvent = threading.Event()
@@ -135,22 +138,35 @@ class Device:
         for e in list(lp.comports()):
             # Get the vid and pid from the device
             info = e.hwid.split()
-            nStr = re.split(":|=", info[1])
-            vid = bytes.fromhex(nStr[2])
-            pid = bytes.fromhex(nStr[3])
+            print(e)
+            print(info)
+            for d in info:
+                if("VID:PID" in d):
+                    print(d)
+                    nStr = re.split(":|=", info[1])
+                    vid = bytes.fromhex(nStr[2])
+                    pid = bytes.fromhex(nStr[3])
+                    
+                    print(vid)
+                    print(pid)
 
-            # Check values with registered devices
-            for dev in self._devices:
-                if(self._devices[dev]["VID"] == vid and self._devices[dev]["PID"] == pid):
-                    # Save port and end loops
-                    try:
-                        ser = serial.Serial(e.name, 115200, timeout=1)
-                        self._port = e.name
-                        print(self._port)
-                        ser.close()
-                        break
-                    except serial.SerialException as e:
-                        pass
+                    # Check values with registered devices
+                    for dev in self._devices:
+                        print(dev)
+                        if(self._devices[dev]["VID"] == vid and self._devices[dev]["PID"] == pid):
+                            print("Device correct")
+                            # Save port and end loops
+                            try:
+                                print("Dispositivo: " + e.device)
+                                ser = serial.Serial(e.device, 115200, timeout=1)
+                                self._port = e.device
+                                print(self._port)
+                                ser.close()
+                                print("Everything is fine for now")
+                                break
+                            except serial.SerialException as e:
+                                print(e)
+                                pass
                         
     
     # Connection checking  
@@ -168,29 +184,19 @@ class Device:
         the program of dead variables.
 
         Args:
+            stop_event: Python threading control
+            dev: port instance
             port (String): Port of the device connected.
             interval (float, optional): Sets the interval
                                         to sleep the thread.
                                         Defaults to 0.1.
         """
         while not stop_event.is_set():
-            ports = [tuple(p) for p in list(lp.comports())]
-            if not ports:
-                print("No device is connected")
+            # Checks if port is open
+            if not dev.test_connection():
+                wx.PostEvent(self._listener, ev.SerialCError())
                 dev.close()
-                break
-            
-            deviceConnected = False
-            
-            for device in ports:
-                if port in device:
-                    # Check if port is not in available ports
-                    # and notify its new status
-                    deviceConnected = True
                     
-            if not deviceConnected:
-                dev.close
-            
             time.sleep(interval)
 
     # Connection closing flow
@@ -316,13 +322,28 @@ class Device:
     #------------------------------------------------
 
 #region Device control and checking
+    def test_connection(self):
+        """
+        Function to test the connection. It is only used by the
+        check_connection thread. 
+        
+        Checks if the port is waiting for some reading. If it 
+        fails throws an exception
+        """
+        try:
+            self._device.inWaiting()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        
     def close(self):
         """
         This function is in charge of closing port connection
-        and communications. Changes _alive flag, indicating
-        that app is no more alive and terminates all threads.
-        
-        Then closes serial.
+        and communications. Then terminates all threads and 
+        cleans all memory. Then closes port connection and then
+        sends a message for wxPython to update status and show
+        that message to the user. 
         """
         self._alive = False
         self.__close_connection()

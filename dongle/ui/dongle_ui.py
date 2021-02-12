@@ -71,6 +71,7 @@ class Dongle(bUI.BasicUI):
         # Set checkbox 
         temp = wx.BoxSizer(wx.HORIZONTAL)
         self._traceType = wx.CheckBox(self._mainPanel, label="String-type trace")
+        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
         temp.Add(self._traceType, flag=wx.LEFT)
         self._mainSizer.Add(temp, flag=wx.LEFT, border=self._conf["log"]["padding"])
         
@@ -78,7 +79,8 @@ class Dongle(bUI.BasicUI):
         self._create_log(self._conf["log"])
         
         # Add BoxSizer to panel
-        self._mainPanel.SetSizer(self._mainSizer)
+        #self._mainPanel.SetSizer(self._mainSizer)
+        self._mainPanel.SetSizerAndFit(self._mainSizer)
         
     def __place_buttons(self, bSize, buttons):
         """
@@ -103,7 +105,7 @@ class Dongle(bUI.BasicUI):
                          nButton)
             
             # And add it to the Grid
-            self._buttonGrid.Add(nButton)
+            self._buttonGrid.Add(nButton, 0, wx.LEFT | wx.RIGHT, 5)
 
     #------------------------------------------------
     #--------------------Private---------------------
@@ -135,7 +137,7 @@ class Dongle(bUI.BasicUI):
         self._commandNameCtrl.SetValue(data[0])
         
         self._commandParamsCtrl.SetValue("")
-        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_UNCHECKED))
+        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
         
     #------------------------------------------------
     #----------------Event Handling------------------
