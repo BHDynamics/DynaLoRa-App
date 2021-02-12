@@ -210,11 +210,9 @@ class Device:
         # Set connection to False
         self._connected = False
         self._stopEvent.set()
-        print("Disconnecting...")
         
         # Then wait for connection thread to end
         self._connectionThread.join()
-        print("Waiting for thread owo")
         
         # Close device's connection
         self._device.close()
@@ -225,7 +223,6 @@ class Device:
         
         # Notify the GUI listener
         wx.PostEvent(self._listener, ev.SerialCDisconnect())
-        print("Ahhhh se envió")
 #endregion
 
 #region Reading data from the device
