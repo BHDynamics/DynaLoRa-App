@@ -93,9 +93,7 @@ class Saver:
     
     def __init__(self):
         # Get the path where all data savings and configs will go
-        self._savingDir = os.path.dirname(__file__)
-        print(self._savingDir)
-        self._savingDir = os.path.abspath(os.path.join(os.path.expanduser(os.getenv('USERPROFILE')), 'BHDYN/DynaLoRa-USBa/data/logs'))
+        self._savingDir = os.path.abspath(os.path.join(os.path.expanduser("~"), 'BHDYN/DynaLoRa-USBa/data/logs'))
         if not os.path.exists(os.path.dirname(self._savingDir)):
             try:
                 os.makedirs(os.path.dirname(self._savingDir))
