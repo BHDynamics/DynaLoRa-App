@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 EXES/
+EXES/raspi/
 
 # Visual Studio Code
 .vscode/
