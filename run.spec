@@ -26,6 +26,7 @@ exe = EXE(pyz,
          name='dongle-app',
          debug=False,
          strip=False,
+         icon='icon.ico',
          upx=True,
          runtime_tmpdir=None,
          console=True )
