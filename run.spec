@@ -1,5 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import platform
+
 block_cipher = None
 
 a = Analysis(['run.py'],
@@ -30,3 +32,11 @@ exe = EXE(pyz,
          upx=True,
          runtime_tmpdir=None,
          console=True )
+
+if platform.system() == 'Darwin':
+    info_plist = {'addition_prop': 'additional_value'}
+    app = BUNDLE(exe,
+                 name='dynalora.app',
+                 bundle_identifier=None,
+                 info_plist=indo_plist
+                 )
