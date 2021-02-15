@@ -1,3 +1,0 @@
-git status
-
-git pull

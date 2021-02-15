@@ -1,7 +1,7 @@
 Rem First check that all dependencies are installed
 set installing=Installing python dependencies
 echo %installing%
-start /wait dependencies_win.bat
+python3 setup.py
 
 Rem Build app
 set building=Building app
