@@ -1,6 +1,5 @@
-# Check for dependencies
-chmod +x dependencies_unix.sh
-./dependencies_unix.sh
+# Check dependencies
+python3 setup.py
 
 # Then build app
 python3 -m PyInstaller run.spec
