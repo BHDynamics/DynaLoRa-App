@@ -38,5 +38,5 @@ if platform.system() == 'Darwin':
     app = BUNDLE(exe,
                  name='dynalora.app',
                  bundle_identifier=None,
-                 info_plist=indo_plist
+                 info_plist=info_plist
                  )
