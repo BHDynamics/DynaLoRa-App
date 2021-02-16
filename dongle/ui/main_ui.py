@@ -334,12 +334,11 @@ class MainFrame(wx.Frame):
         Args:
             event (EVT_SERIALRM): Message received from serial.
         """
+        # Avoid lines with only \r\n
         if event.data != b'\r\n':
-            array = bytearray(event.data)
-            print(array)
-            del array[(len(array) - 2):]
-            print(array)
-            message = array.decode("utf-8")
+            # Now transform message into string and clean it from \r\n
+            message = bytearray(event.data).decode("utf-8")
+            message = message.strip()
             self._currentUI.OnResponse("[System] " + message + "\n")
     
     def WriteDevice(self, dat: Trace):
