@@ -21,7 +21,7 @@ SERIALW = wx.NewEventType()
 
 # Device connection MENU events
 DeviceDEvent, EVT_DEVDISCONNECT = ne.NewEvent()
-DeviceCEvent, EVT_DEVCONNECT = ne.NewEvent()
+DeviceCEvent, EVT_DEVCONNECT = ne.NewEvent()ç
 DEVEVENT = wx.NewEventType()
 
 # Terminal events

@@ -138,7 +138,7 @@ class Dongle(bUI.BasicUI):
         
         self._commandParamsCtrl.SetValue("")
         self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
-        
+                
     #------------------------------------------------
     #----------------Event Handling------------------
     #------------------------------------------------
