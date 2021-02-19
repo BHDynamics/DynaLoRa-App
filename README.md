@@ -1,11 +1,9 @@
-DynaLoRa-App
----
+# DynaLoRa-App
 
 A crossplatform-desktop app for controlling the DynaLoRa device and send messages, 
 set the device to hear for new commands and incomming messages and much more.
 
-Description
-------
+## Description
 
 This is a Desktop Application for the device DynaLoRa-USB. It's functionality 
 is to control some commands that can be sent to the device in order to make it
@@ -23,8 +21,7 @@ a web page with information about the device and an email to contact us if there
 is any problem. 
 
 
-Adding features, modifying the app
-------
+## Adding features, modifying the app
 
 If you want to add new features to the app or contribute to it's development go 
 to our [repository](https://github.com/BHDynamics/DynaLoRa-App "BHDynamics repo") and clone
@@ -45,11 +42,13 @@ without python installed in a machine. To do this, you just need to run the
 If your modification only adds more buttons, just add the corresponding button
 information in the "dongle_ui.json". The format is simple:
 
+```
 {
-    `command`: "RX",
-    `txt`: "RX",
-    `byte`: "FFFF"
+    "command": "RX",
+    "txt": "RX",
+    "byte": "FFFF"
 }
+```
 
 The `command` field is for the command name and the string that will be sent to the 
 device to execute that command. The `txt` field is for the text that will be shown 
