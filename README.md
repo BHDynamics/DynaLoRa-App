@@ -1,9 +1,11 @@
-#DynaLoRa-App
+DynaLoRa-App
+---
 
 A crossplatform-desktop app for controlling the DynaLoRa device and send messages, 
 set the device to hear for new commands and incomming messages and much more.
 
-##Description
+Description
+------
 
 This is a Desktop Application for the device DynaLoRa-USB. It's functionality 
 is to control some commands that can be sent to the device in order to make it
@@ -21,10 +23,11 @@ a web page with information about the device and an email to contact us if there
 is any problem. 
 
 
-##Adding features, modifying the app
+Adding features, modifying the app
+------
 
 If you want to add new features to the app or contribute to it's development go 
-to our[repository](https://github.com/BHDynamics/DynaLoRa-App "BHDynamics repo") and clone
+to our [repository](https://github.com/BHDynamics/DynaLoRa-App "BHDynamics repo") and clone
 it in your system. Make sure that some version of `python 3.X` is installed in your machine
 and run **setup.py** file. This will install the different dependencies that the 
 app needs. This includes: *wxPython*, the GUI library that manages the interactable 
