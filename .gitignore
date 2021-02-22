@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 EXES/
 EXES/raspi/
+Makefile
+make.bat
+source/
 
 # Visual Studio Code
 .vscode/

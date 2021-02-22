@@ -56,4 +56,4 @@ later in the button. The `byte` field is for sending byte-codified traces, this 
 be the byte that is going to identify the command. 
 
 If some modification os going to be added to the app, consult the documentation
-provided at **PLACEHOLDER**. 
+provided at **Not ready yet**. 
