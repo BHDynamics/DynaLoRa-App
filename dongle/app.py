@@ -11,7 +11,6 @@ to work and make them work together.
 import wx
 import rapidjson
 import os
-import dongle.utils.events
 
 # from
 from dongle.ui.main_ui import MainFrame

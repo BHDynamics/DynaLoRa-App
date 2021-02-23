@@ -335,9 +335,11 @@ class MainFrame(wx.Frame):
             event (EVT_SERIALRM): Message received from serial.
         """
         # Avoid lines with only \r\n
-        if event.data != b'\r\n':
+        if event.data != b'\r\n' and event.data != b'\n':
             # Now transform message into string and clean it from \r\n
             message = bytearray(event.data).decode("utf-8")
+            print("New trace received: ")
+            print(event.data)
             message = message.strip()
             self._currentUI.OnResponse("[System] " + message + "\n")
     

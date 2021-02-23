@@ -1,20 +1,35 @@
-# External libraries imports
-import serial
-import serial.tools.list_ports as lp 
-import re
-import threading
-import wx
-import dongle.utils.events as ev
+"""Serial USB controller.
+
+This file contains the controller class for the USB
+device, in this case DynaLoRa. 
+
+It has the definition of the class that will control the 
+connection and communication with the device. Receives the
+different messages, errors and data provided by the device. 
+
+Controls that the device has not been disconnected abruptly
+or unexpectedly. 
+"""
+# Standard libraries
 import struct
 import time
+import threading
+import re
 
-# Internal imports
+# External / Third parties libraries
+import serial
+import serial.tools.list_ports as lp 
+import wx
+
+# Local application
+import dongle.utils.events as ev
 from dongle.utils.bytes_data import ByteCodes
 from dongle.utils.trace import Trace
 
 # Class to manage the connection with the device
 class Device:
-    """
+    """DynaLoRa device controller.
+
     Class for controlling the communication 
     between the App and the USB device. 
 
@@ -38,6 +53,7 @@ class Device:
     device connected.  
     """
 #region Variables
+
     # Device connected 
     _device: serial.Serial = None
     
@@ -59,9 +75,7 @@ class Device:
     
     # wx listener
     _listener = None
-    
-    # Controller for closing app
-    _alive = False
+
 #endregion
 
     #------------------------------------------------
@@ -69,8 +83,10 @@ class Device:
     #------------------------------------------------
 
 # region Construction
+
     def __init__(self, configuration, listener):
-        """
+        """Constructor 
+
         Basically search for available devices in serial port
         communication and check which one is the dongle. First
         read all valid VID:PID from the configuration value 
@@ -80,7 +96,6 @@ class Device:
         If a registered device is found, connect to it and update
         connected value. 
         """
-        self._alive = True
         data = {} # Dictionary with the VID:PID
         for dev in configuration:
             tempVID = dev["VID"][2:]
@@ -108,22 +123,26 @@ class Device:
             
             # Begin connection thread to manage readings
             self._stopEvent = threading.Event()
-            self._connectionThread = threading.Thread(name="Reading thread", target=self.__read, args=(self._devices, self._stopEvent))
+            self._connectionThread = threading.Thread(name="Reading thread", target=self.__read, 
+                                                      args=(self._devices, self._stopEvent))
             
             # Then start a daemon thread to check if device is still connected
-            self._portController = threading.Thread(target=self.__check_connection, args=(self._stopEvent, self, self._port, 0.1))
+            self._portController = threading.Thread(target=self.__check_connection, 
+                                                    args=(self._stopEvent, self, self._port, 0.1))
             
             # Start threads
             self._connectionThread.start()
             self._portController.start()
             
             wx.PostEvent(self._listener, ev.SerialCTrue())
+
 #endregion   
             
 #region Connection Management  
-    # Search for devices
+
     def __search(self):
-        """
+        """Search for devices.
+
         This function searches for valid USB devices
         connected to USB ports in the computer.
 
@@ -168,10 +187,9 @@ class Device:
                                 print(e)
                                 pass
                         
-    
-    # Connection checking  
     def __check_connection(self, stop_event, dev, port, interval=0.1):
-        """
+        """Check if device is disconnected.
+
         Method to check if device gets disconnected. This is
         usefull for managing disconnection and save the state
         of the app if needed, or at least notify the user 
@@ -199,9 +217,9 @@ class Device:
                     
             time.sleep(interval)
 
-    # Connection closing flow
     def __close_connection(self):
-        """
+        """Close port connection.
+
         This function manages the disconnection of 
         the device. Checks that all threads stopped 
         and resets all data from this object, to 
@@ -223,11 +241,14 @@ class Device:
         
         # Notify the GUI listener
         wx.PostEvent(self._listener, ev.SerialCDisconnect())
+
 #endregion
 
 #region Reading data from the device
+
     def __validate_frame(self, frame):
-        """
+        """Check that received data is valid. 
+
         This function validates a frame received 
         from the device, checking if some information
         was corrupted during transmission.
@@ -276,7 +297,8 @@ class Device:
 
     
     def __read(self, iter, stop_event):
-        """
+        """Read available data from the device.
+
         Function that manages the information received from 
         the device. Manages the different responses and 
         checks if the information received is not corrupted.
@@ -322,8 +344,10 @@ class Device:
     #------------------------------------------------
 
 #region Device control and checking
+
     def test_connection(self):
-        """
+        """Test port connection.
+
         Function to test the connection. It is only used by the
         check_connection thread. 
         
@@ -338,26 +362,27 @@ class Device:
             return False
         
     def close(self):
-        """
+        """Close connection.
+
         This function is in charge of closing port connection
         and communications. Then terminates all threads and 
         cleans all memory. Then closes port connection and then
         sends a message for wxPython to update status and show
         that message to the user. 
         """
-        self._alive = False
         self.__close_connection()
 
-    # Check device status
     def is_connected(self):
-        """
+        """Check device status.
+
         Returns the status of the serial connection. 
         True when connected and False when not. 
         """
         return self._connected
     
     def get_port(self):
-        """
+        """Access the port that is connected.
+
         Returns the port to which the device is connected.
         Use this only to check a string.
 
@@ -367,7 +392,8 @@ class Device:
         return self._port
     
     def get_port_data(self):
-        """
+        """Get device data from port.
+
         Searches for the port information and returns it.
 
         Returns:
@@ -385,11 +411,14 @@ class Device:
                     return device
         else:
             return "No device connected"
+
 #endregion
 
 #region Writing
+
     def write(self, trace: Trace):
-        """
+        """Send some data to the device. 
+
         This method is used to write some information in the 
         USB device with a specific command. First checks that
         is a valid command and then creates the frame to send 
@@ -457,4 +486,5 @@ class Device:
         else:
             # Device not connected, not sending data, throw an error (tuercebotas)
             wx.PostEvent(self._listener, ev.SerialCFalse())
+            
 #endregion
