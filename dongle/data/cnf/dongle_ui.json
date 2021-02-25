@@ -1,9 +1,9 @@
 {
-  "buttonsPerRaw": 15,
+  "buttonsPerRaw": 10,
   "verticalGap": 1,
   "horizontalGap": 1,
   "buttonsSize": {
-    "w": 70,
+    "w": 80,
     "h": 40
   },
   "buttons": [

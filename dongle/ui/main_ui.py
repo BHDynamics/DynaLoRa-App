@@ -190,7 +190,14 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnInfo, infoButton)
         
     def __create_view_menu(self):
-        h = 0
+        """Not yet implemented
+
+        This method is in charge to create the menu bar option "View".
+
+        Returns:
+            [type]: [description]
+        """
+        return 0
         
     def __create_file_menu(self):
         """

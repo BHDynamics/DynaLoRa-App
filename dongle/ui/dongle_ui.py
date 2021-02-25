@@ -105,7 +105,7 @@ class Dongle(bUI.BasicUI):
                          nButton)
             
             # And add it to the Grid
-            self._buttonGrid.Add(nButton, 0, wx.LEFT | wx.RIGHT, 5)
+            self._buttonGrid.Add(nButton, 0, wx.LEFT | wx.RIGHT | wx.SHAPED, 5)
 
     #------------------------------------------------
     #--------------------Private---------------------
