@@ -1,3 +1,10 @@
+"""Events
+
+This file contains the different events needed for the app to work 
+correctly. This events are self-made and integrated with wxPython's
+events. 
+"""
+# WX import
 import wx
 import wx.lib.newevent as ne
 

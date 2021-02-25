@@ -1,3 +1,9 @@
+"""Trace file.
+
+This file contains the class Trace, which represents the information 
+that will be sent to the USB device. It is made to only manage the 
+information. 
+"""
 class Trace:
     """
     Class to store sending info. Used for 

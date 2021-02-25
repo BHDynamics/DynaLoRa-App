@@ -1,14 +1,22 @@
-# Data saver, interacts with the OS
-# Satelite will be in a JSON(?)
+"""File managing.
+
+This file contains the 2 different classes that interact with 
+files. Opener opens files (only) and Saver writes on files. 
+"""
+# Standard imports
 import os
-import time 
-import rapidjson
+import time
 import errno
+
+# Third Parties 
+import rapidjson
 
 t = time.localtime()
 currentTime = time.strftime("%Y%m%d", t)
 print(currentTime)
-savingDir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/logs'))
+savingDir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 
+                            '..', 
+                            'data/logs'))
 print(savingDir)
 
 class Opener:
