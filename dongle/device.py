@@ -123,12 +123,18 @@ class Device:
             
             # Begin connection thread to manage readings
             self._stopEvent = threading.Event()
-            self._connectionThread = threading.Thread(name="Reading thread", target=self.__read, 
-                                                      args=(self._devices, self._stopEvent))
+            self._connectionThread = threading.Thread(name="Reading thread", 
+                                                      target=self.__read, 
+                                                      args=(self._devices, 
+                                                            self._stopEvent)
+                                                     )
             
             # Then start a daemon thread to check if device is still connected
             self._portController = threading.Thread(target=self.__check_connection, 
-                                                    args=(self._stopEvent, self, self._port, 0.1))
+                                                    args=(self._stopEvent, 
+                                                          self, 
+                                                          self._port, 
+                                                          0.1))
             
             # Start threads
             self._connectionThread.start()
@@ -177,7 +183,9 @@ class Device:
                             # Save port and end loops
                             try:
                                 print("Dispositivo: " + e.device)
-                                ser = serial.Serial(e.device, 115200, timeout=1)
+                                ser = serial.Serial(e.device, 
+                                                    115200, 
+                                                    timeout=1)
                                 self._port = e.device
                                 print(self._port)
                                 ser.close()
@@ -280,7 +288,9 @@ class Device:
                 del calculateSum[0]
                 del calculateSum[(len(calculateSum) - 3):(len(calculateSum) - 1)]
                 checkSum = sum(calculateSum)
-                frameCheck = int.from_bytes(bytes([frame[last - 2], frame[last - 1]]), "big")
+                frameCheck = int.from_bytes(bytes([frame[last - 2], 
+                                                  frame[last - 1]]), 
+                                                  "big")
                 
                 if(checkSum == frameCheck):
                     # Frame is not corrupted
@@ -290,7 +300,9 @@ class Device:
         else:
             temp = newStr.split(";")
             
-            if (temp[0] == "DLR" or temp[0] == "DLM") and (temp[len(temp) - 1] == "EOR" or temp[len(temp) - 1] == "EOM"):
+            if ((temp[0] == "DLR" or temp[0] == "DLM") 
+                and (temp[len(temp) - 1] == "EOR" 
+                     or temp[len(temp) - 1] == "EOM")):
                 return True
             else:
                 return False
@@ -328,9 +340,11 @@ class Device:
                     else:
                         message = b.decode('utf-8')
                         if "Overflow" not in message:
-                            wx.PostEvent(self._listener, ev.SerialRMessage(data=b))
+                            wx.PostEvent(self._listener, 
+                                         ev.SerialRMessage(data=b))
                         else:
-                            wx.PostEvent(self._listener, ev.SerialRFrameErr(data=b))
+                            wx.PostEvent(self._listener, 
+                                         ev.SerialRFrameErr(data=b))
             
             except serial.SerialException as e:
                 print("Error")
@@ -449,7 +463,8 @@ class Device:
                         data = []
                         
                         # Add data to byte array
-                        data.extend(struct.pack('<H', len(trace.GetParamsCode())))
+                        data.extend(struct.pack('<H', 
+                                                len(trace.GetParamsCode())))
                         data.extend(trace.GetCommandCode())
                         data.extend(trace.GetParametersBytes())
                         
