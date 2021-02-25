@@ -5,7 +5,7 @@ import platform
 block_cipher = None
 
 a = Analysis(['run.py'],
-           pathex=['C:\\Users\\alper\\Workspace\\Dongle-App\\dongle-app'],
+           pathex=[],
            binaries=[],
            datas=[('./dongle/data/cnf/app.json', './dongle/data/cnf/'), ('./dongle/data/cnf/dongle_ui.json', './dongle/data/cnf/')],
            hiddenimports=['uuid', 'time', 'decimal', 'serial', 'threading'],
@@ -31,7 +31,7 @@ exe = EXE(pyz,
          icon='icon.ico',
          upx=True,
          runtime_tmpdir=None,
-         console=True )
+         console=False )
 
 if platform.system() == 'Darwin':
     info_plist = {'addition_prop': 'additional_value'}
