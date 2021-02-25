@@ -1,14 +1,25 @@
-import os
-import wx
-import wx.stc as stc
-import math
-import dongle.utils.events as ev
+"""Basic UI file
 
-from dongle.utils.file_manager import Opener
-from dongle.utils.trace import Trace
+This file contains the BasicUI class that creates the different logs
+and texts. Binds the different events to the logs and the functions
+that updates the logs and texts.
+"""
+# Standard imports
+import os
+import math
 from datetime import datetime
 
-dataPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data/cnf'))
+# Third parties
+import wx
+import wx.stc as stc
+
+# Internal imports
+from dongle.utils.file_manager import Opener
+from dongle.utils.trace import Trace
+import dongle.utils.events as ev
+
+dataPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ),
+                           '..', 'data/cnf'))
 
 class BasicUI:
     """
@@ -65,7 +76,8 @@ class BasicUI:
         self._conf = self._fOpener.OpenJSONFile(dataPath, self._confFile)
         
         # Create UI
-        self._mainPanel = wx.Panel(mainWin, wx.ID_ANY, pos=(x, y), size=(w, h))
+        self._mainPanel = wx.Panel(mainWin, wx.ID_ANY, pos=(x, y), 
+                                   size=(w, h))
         self._mainSizer = wx.BoxSizer(wx.VERTICAL)
         
         # Create Trace Data
@@ -116,27 +128,34 @@ class BasicUI:
         tBox = wx.BoxSizer(wx.HORIZONTAL)
         text = wx.StaticText(self._mainPanel, label='Input')
         tBox.Add(text)
-        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, border=inputData["padding"])
+        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, 
+                            border=inputData["padding"])
         self._mainSizer.Add((-1, 5))
         
         # Add text controllers    
         self._inputSizer = wx.BoxSizer(wx.HORIZONTAL)
         self._commandNameCtrl = wx.TextCtrl(self._mainPanel,
                                             wx.ID_ANY, "",
-                                            style=wx.TE_READONLY | wx.TE_CENTER,
-                                            size=(nData["size"]["w"], nData["size"]["h"]))
+                                            style=wx.TE_READONLY 
+                                            | wx.TE_CENTER,
+                                            size=(nData["size"]["w"], 
+                                            nData["size"]["h"]))
         self._commandParamsCtrl = wx.TextCtrl(self._mainPanel, 
                                               wx.ID_ANY, "",
-                                              size=(tData["size"]["w"], tData["size"]["h"]))
+                                              size=(tData["size"]["w"], 
+                                              tData["size"]["h"]))
         self._sendButton = wx.Button(self._mainPanel, 
                                      label=bData["txt"], 
-                                     size=(bData["size"]["w"], bData["size"]["h"]))
+                                     size=(bData["size"]["w"], 
+                                     bData["size"]["h"]))
         self._sendButton.SetDefault()
         self._window.Bind(wx.EVT_BUTTON, self.OnCommandSend, self._sendButton)
         self._inputSizer.Add(self._commandNameCtrl, border=nData["padding"])  
-        self._inputSizer.Add(self._commandParamsCtrl, proportion=1, border=tData["padding"])
+        self._inputSizer.Add(self._commandParamsCtrl, proportion=1, 
+                             border=tData["padding"])
         self._inputSizer.Add((-1, 10))
-        self._inputSizer.Add(self._sendButton, flag=wx.RIGHT, border=bData["padding"])
+        self._inputSizer.Add(self._sendButton, flag=wx.RIGHT, 
+                             border=bData["padding"])
         
         # Add it to the main sizer
         self._mainSizer.Add(self._inputSizer, 
@@ -159,15 +178,23 @@ class BasicUI:
         tBox = wx.BoxSizer(wx.HORIZONTAL)
         text = wx.StaticText(self._mainPanel, label='Log')
         tBox.Add(text)
-        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, border=logData["padding"])
+        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, 
+                            border=logData["padding"])
         self._mainSizer.Add((-1, 5))
         
         # Add console and Log
         self._logSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self._logCtrl = stc.StyledTextCtrl(self._mainPanel, wx.ID_ANY, style=wx.TE_READONLY | wx.TE_MULTILINE | wx.TE_RICH, name=stc.STCNameStr)
+        self._logCtrl = stc.StyledTextCtrl(self._mainPanel, 
+                                           wx.ID_ANY, 
+                                           style=wx.TE_READONLY 
+                                           | wx.TE_MULTILINE | wx.TE_RICH, 
+                                           name=stc.STCNameStr)
         self._logCtrl.SetReadOnly(True)
         self._logSizer.Add(self._logCtrl, proportion=1, flag=wx.EXPAND)
-        self._mainSizer.Add(self._logSizer, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=logData["padding"])
+        self._mainSizer.Add(self._logSizer, 
+                            proportion=1, 
+                            flag=wx.LEFT | wx.RIGHT | wx.EXPAND, 
+                            border=logData["padding"])
         # Add some space at the end
         self._mainSizer.Add((-1, 10))  
     
@@ -201,19 +228,21 @@ class BasicUI:
             self._currTrace.SetParameters(None)
             self._currTrace.SetIsString(False)
             self._currTrace.SetTimeStamp(datetime.timestamp(instant))       
-            self.__write_line("[Out]: " + self._currTrace.GetCommand() + 
-                                "                     " + instant.strftime("%Y-%M-%D %H:%M:%S") +
-                                "\n") 
+            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
+                              + "                     " 
+                              + instant.strftime("%Y-%M-%D %H:%M:%S") 
+                              + "\n") 
         else:
             text = self._commandParamsCtrl.GetLineText(0)
             instant = datetime.now()
             self._currTrace.SetParameters(text)
             self._currTrace.SetIsString(self._traceType.GetValue()) 
             self._currTrace.SetTimeStamp(int(datetime.timestamp(instant)))       
-            self.__write_line("[Out]: " + self._currTrace.GetCommand() + 
-                                " (Params): " + self._currTrace.GetParams() + 
-                                "                     " + instant.strftime("%Y-%M-%D %H:%M:%S") +
-                                "\n") 
+            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
+                              + " (Params): " + self._currTrace.GetParams() 
+                              + "                     " 
+                              + instant.strftime("%Y-%M-%D %H:%M:%S") 
+                              + "\n") 
         self._window.WriteDevice(self._currTrace)
         
     def OnResponse(self, newLine):
@@ -242,13 +271,34 @@ class BasicUI:
     #------------------------------------------------  
     
     def ClearLog(self):
-        self._logCtrl.SetValue("")
+        """Clearing log method.
+
+        Clears all data currently in the Log. Sets it's value
+        to " " and updates. 
+        """
+        self._logCtrl.SetValue(" ")
     
     def LoadLog(self, data):
+        """Load Log with data
+
+        Sets the value of the Log with the data of a specified file
+        reading it and displaying the text. 
+
+        Args:
+            data (path): File with the data to load in the Log. 
+        """
         self.ClearLog()
         self._logCtrl.LoadFile(data)
     
     def GetLogData(self):
+        """Get data from the log.
+
+        This method gets all text that is currently in the log and then
+        returns it as a string list. 
+
+        Returns:
+            List(str): List with all the text lines in the log.
+        """
         # String list
         strings = []
         

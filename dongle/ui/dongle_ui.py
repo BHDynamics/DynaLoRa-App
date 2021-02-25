@@ -1,7 +1,17 @@
-import wx
-import wx.stc as stc
+"""Dongle UI file.
+
+This file contains the class Dongle, that inherits
+from BasicUI. This one displays the different command
+buttons and binds them to their events and functions.
+"""
+# Standard imports
 import math
 
+# Third party libraries
+import wx
+import wx.stc as stc
+
+# Internal imports
 import dongle.ui.basic_ui as bUI
 
 class Dongle(bUI.BasicUI):
@@ -25,7 +35,6 @@ class Dongle(bUI.BasicUI):
     #------------------------------------------------
     #--------------------Private---------------------
     #------------------------------------------------
-       
     def __init__(self, mainWin, x, y, w, h):
         """
         Constructor of the UI to manage and communicate
@@ -53,15 +62,19 @@ class Dongle(bUI.BasicUI):
         tBox = wx.BoxSizer(wx.HORIZONTAL)
         text = wx.StaticText(self._mainPanel, label='Commands')
         tBox.Add(text)
-        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, border=self._conf["input"]["padding"])
+        self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, 
+                            border=self._conf["input"]["padding"])
         self._mainSizer.Add((-1, 5))
         
         cols = self._conf["buttonsPerRaw"]
         rows = math.ceil(len(self._conf["buttons"]) / cols)
-        self._buttonGrid = wx.GridSizer(rows, cols, self._conf["verticalGap"], self._conf["horizontalGap"])
+        self._buttonGrid = wx.GridSizer(rows, cols, self._conf["verticalGap"], 
+                                        self._conf["horizontalGap"])
         self.__place_buttons(self._conf["buttonsSize"], self._conf["buttons"])
         
-        self._mainSizer.Add(self._buttonGrid, flag=wx.RIGHT | wx.LEFT | wx.EXPAND, border=self._conf["log"]["padding"])
+        self._mainSizer.Add(self._buttonGrid, 
+                            flag=wx.RIGHT | wx.LEFT | wx.EXPAND, 
+                            border=self._conf["log"]["padding"])
         
         self._mainSizer.Add((-1, 10))
         
@@ -70,10 +83,12 @@ class Dongle(bUI.BasicUI):
         
         # Set checkbox 
         temp = wx.BoxSizer(wx.HORIZONTAL)
-        self._traceType = wx.CheckBox(self._mainPanel, label="String-type trace")
+        self._traceType = wx.CheckBox(self._mainPanel, 
+                                      label="String-type trace")
         self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
         temp.Add(self._traceType, flag=wx.LEFT)
-        self._mainSizer.Add(temp, flag=wx.LEFT, border=self._conf["log"]["padding"])
+        self._mainSizer.Add(temp, flag=wx.LEFT, 
+                            border=self._conf["log"]["padding"])
         
         # Create output console and log box
         self._create_log(self._conf["log"])
@@ -96,16 +111,19 @@ class Dongle(bUI.BasicUI):
         """
         for b in buttons: 
             # First instantiate a new button           
-            nButton = wx.Button(self._mainPanel, label=b["txt"], size=(bSize["w"], bSize["h"]))
+            nButton = wx.Button(self._mainPanel, label=b["txt"], 
+                                size=(bSize["w"], bSize["h"]))
             
             # Bind it 
             sendData = [b["command"], b["byte"]]
             self._window.Bind(wx.EVT_BUTTON, 
-                         lambda evt, temp=sendData: self.OnCommandButtonClick(evt, temp),
-                         nButton)
+                              lambda evt, 
+                              temp=sendData: self.OnCommandButtonClick(evt, temp),
+                              nButton)
             
             # And add it to the Grid
-            self._buttonGrid.Add(nButton, 0, wx.LEFT | wx.RIGHT | wx.SHAPED, 5)
+            self._buttonGrid.Add(nButton, 0, 
+                                 wx.LEFT | wx.RIGHT | wx.SHAPED, 5)
 
     #------------------------------------------------
     #--------------------Private---------------------
@@ -127,7 +145,8 @@ class Dongle(bUI.BasicUI):
             event (wxEvent): Event 
             data (list): List containing the command and byte code
         """
-        # For the moment this function is still here but can be moved to other class
+        # For the moment this function is still here but can be moved 
+        # to other class
         # Update current trace data
         self._currTrace.SetCommand(data[0])
         self._currTrace.SetCommandCode(bytes.fromhex(data[1]))

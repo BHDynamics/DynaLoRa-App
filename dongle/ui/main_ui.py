@@ -1,15 +1,26 @@
-import wx
+"""MainFrame file.
+
+This file contains the class MainFrame, which inherits from
+wx.Frame. This class manages the connection between the app 
+itself, the USB device and the OS, displaying messages when
+needed and notifying events. 
+"""
+# Standard imports
 import os
-import wx.adv
-import dongle.utils.events as ev
-import dongle.ui.dongle_ui as dng
+from datetime import datetime
 import webbrowser
 
+# Third parties imports
+import wx
+import wx.adv
+
+# Internal imports
 from dongle.device import Device
 from dongle.utils.file_manager import Saver
 from dongle.utils.file_manager import Opener
 from dongle.utils.trace import Trace
-from datetime import datetime
+import dongle.utils.events as ev
+import dongle.ui.dongle_ui as dng
 
 class MainFrame(wx.Frame):
     """
@@ -68,7 +79,11 @@ class MainFrame(wx.Frame):
         urls = file["urls"]
         self._appInfo = file["info"]
         
-        wx.Frame.__init__(self, parent, title=file["title"], size=(file["size"]["x"], file["size"]["y"]))
+        wx.Frame.__init__(self, 
+                          parent, 
+                          title=file["title"], 
+                          size=(file["size"]["x"], 
+                          file["size"]["y"]))
         
         # Try to connect to a device
         # This is done first to activate some options
@@ -93,7 +108,9 @@ class MainFrame(wx.Frame):
         if not self._deviceInstance:
             self._statusBar.SetStatusText("No device connected", 1)
         else:
-            self._statusBar.SetStatusText("Device port: " + self._deviceInstance.get_port(), 1)
+            self._statusBar.SetStatusText("Device port: " 
+                                          + self._deviceInstance.get_port(), 
+                                          1)
         
         self.Show()
         
@@ -132,18 +149,24 @@ class MainFrame(wx.Frame):
         the different options related to the device 
         and it's possibilities. 
         """
-        devConnect = self._deviceMenu.Append(wx.ID_ANY, "&Connect Device", "Connects app to a USB device (if plugged)")
+        devConnect = self._deviceMenu.Append(wx.ID_ANY, 
+                                             "&Connect Device", 
+                                             "Connects app to a USB" 
+                                             + "device (if plugged)")
         self.Bind(wx.EVT_MENU, self.OnUserConnect, devConnect)
 
-        devDisconnect = self._deviceMenu.Append(wx.ID_ANY, "&Disconnect Device", "Disconnects app from current connected device")
+        devDisconnect = self._deviceMenu.Append(wx.ID_ANY, 
+                                                "&Disconnect Device", 
+                                                "Disconnects app from current" 
+                                                + "connected device")
         self.Bind(wx.EVT_MENU, self.OnUserDisconnect, devDisconnect)
         self._deviceMenu.AppendSeparator()
         
-        devInfo = self._deviceMenu.Append(wx.ID_ANY, "&Info.", "Shows information about the connected device")
+        devInfo = self._deviceMenu.Append(wx.ID_ANY, 
+                                          "&Info.", 
+                                          "Shows information about the" 
+                                          + "connected device")
         self.Bind(wx.EVT_MENU, self.OnDeviceInfo, devInfo)
-        
-        # devReceivedTest = self._deviceMenu.Append(wx.ID_ANY, "&Test Receiving", "Tests receiving messages and writing info in log system")
-        # self.Bind(wx.EVT_MENU, self.OnRead, devReceivedTest)
         
     def __create_help_menu(self, urls):
         """
@@ -153,30 +176,48 @@ class MainFrame(wx.Frame):
         Currently it only has 3 buttons, but more can be added anytime. 
         """
         # Create and bind report button to open webbrowser
-        reportButton = self._helpMenu.Append(wx.ID_ANY, "&Report", "Report an issue or give any feedback you consider is relevant")
+        reportButton = self._helpMenu.Append(wx.ID_ANY, 
+                                             "&Report", 
+                                             "Report an issue or give any" 
+                                             + "feedback you" 
+                                             + "consider is relevant")
         self.Bind(wx.EVT_MENU,
-                  lambda evt, temp=urls["report"]: self.OnHelpMenuButton(evt, temp),
+                  lambda evt, 
+                  temp=urls["report"]: self.OnHelpMenuButton(evt, temp),
                   reportButton)
         
         # Create tutorial menu and bind all different buttons
         tutorialMenu = wx.Menu()
         
         # Create dongle tutorial button
-        dongleTutorial = tutorialMenu.Append(wx.ID_ANY, "&Dongle", "Access dongle programming tutorials")
+        dongleTutorial = tutorialMenu.Append(wx.ID_ANY, 
+                                             "&Dongle", 
+                                             "Access dongle programming" 
+                                             + "tutorials")
         self.Bind(wx.EVT_MENU,
-                  lambda evt, temp=urls["tutorials"]["dongle"]: self.OnHelpMenuButton(evt, temp),
+                  lambda evt, 
+                  temp=urls["tutorials"]["dongle"]: self.OnHelpMenuButton(evt, temp),
                   dongleTutorial)
         
         # Create DynOSSAT EDU tutorial button
-        satTutorial = tutorialMenu.Append(wx.ID_ANY, "&DynOSSAT", "Access DynOSSAT programming and hardware tutorials")
+        satTutorial = tutorialMenu.Append(wx.ID_ANY, 
+                                          "&DynOSSAT", 
+                                          "Access DynOSSAT programming and" 
+                                          + "hardware tutorials")
         self.Bind(wx.EVT_MENU,
-                  lambda evt, temp=urls["tutorials"]["dynosat"]: self.OnHelpMenuButton(evt, temp),
+                  lambda evt, 
+                  temp=urls["tutorials"]["dynosat"]: self.OnHelpMenuButton(evt, temp),
                   satTutorial)
         
         # Create App tutorial button
-        appTutorial = tutorialMenu.Append(wx.ID_ANY, "&App", "Access app documentation, tutorials and source code in github")
+        appTutorial = tutorialMenu.Append(wx.ID_ANY, 
+                                          "&App", 
+                                          "Access app documentation," 
+                                          + "tutorials and source code" 
+                                          + "in github")
         self.Bind(wx.EVT_MENU,
-                  lambda evt, temp=urls["tutorials"]["app"]: self.OnHelpMenuButton(evt, temp),
+                  lambda evt, 
+                  temp=urls["tutorials"]["app"]: self.OnHelpMenuButton(evt, temp),
                   appTutorial)
         
         # Now append that menu to the main help menu
@@ -186,7 +227,9 @@ class MainFrame(wx.Frame):
         self._helpMenu.AppendSeparator()
         
         # Create and bind Info button to give info about the app
-        infoButton = self._helpMenu.Append(wx.ID_ANY, "&Info.", "Consult information about the app")
+        infoButton = self._helpMenu.Append(wx.ID_ANY, 
+                                           "&Info.", 
+                                           "Consult information about the app")
         self.Bind(wx.EVT_MENU, self.OnInfo, infoButton)
         
     def __create_view_menu(self):
@@ -200,31 +243,45 @@ class MainFrame(wx.Frame):
         return 0
         
     def __create_file_menu(self):
-        """
+        """Create file menu
+
         Method to create the file menu in the top menu bar. 
         It is separated to make all programm more readable
         and easier to add new things and options. 
         """
         # Create, add and bind "Open" option
-        logOpener = self._fileMenu.Append(wx.ID_OPEN, "&Open Log", "Open some log stored in app data.")
+        logOpener = self._fileMenu.Append(wx.ID_OPEN, 
+                                          "&Open Log", 
+                                          "Open some log stored in app data.")
         self.Bind(wx.EVT_MENU, self.OnOpen, logOpener)
         
         # Create, add and bind "Save" option
-        logSaver = self._fileMenu.Append(wx.ID_SAVE, "&Save Log", "Saves current log into a file at " + self._fileSaver.GetSavingDir())
+        logSaver = self._fileMenu.Append(wx.ID_SAVE, 
+                                         "&Save Log", 
+                                         "Saves current log into a file at " 
+                                         + self._fileSaver.GetSavingDir())
         self.Bind(wx.EVT_MENU, self.OnSave, logSaver)
         
         # Create, add and bind "Save As" option
-        logAsSaver = self._fileMenu.Append(wx.ID_SAVEAS, "&Save Log As...", "Saves the actual log into a specified location")
+        logAsSaver = self._fileMenu.Append(wx.ID_SAVEAS, 
+                                           "&Save Log As...", 
+                                           "Saves the actual log into a" 
+                                           + "specified location")
         self.Bind(wx.EVT_MENU, self.OnSaveAs, logAsSaver)
         
         # Clear log option
-        loggerCleaner = self._fileMenu.Append(wx.ID_ANY, "&Clear Log", "Deletes all data in the current log")
+        loggerCleaner = self._fileMenu.Append(wx.ID_ANY, 
+                                              "&Clear Log", 
+                                              "Deletes all data" 
+                                              + "in the current log")
         self.Bind(wx.EVT_MENU, self.OnClearLog, loggerCleaner)
         self._fileMenu.AppendSeparator()
         
         # Aquí irían las preferencies
         # Create, add and bind "Exit" option 
-        closer = self._fileMenu.Append(wx.ID_EXIT, "&Exit", "Exit and close app.")
+        closer = self._fileMenu.Append(wx.ID_EXIT, 
+                                       "&Exit", 
+                                       "Exit and close app.")
         self.Bind(wx.EVT_MENU, self.OnExit, closer)
         
     def __bind_handlers(self):
@@ -366,7 +423,8 @@ class MainFrame(wx.Frame):
         if self._deviceInstance:
             self._deviceInstance.write(dat)
         else:
-            self._currentUI.OnResponse("[System] Device is not connected, can't send command.\n")
+            self._currentUI.OnResponse("[System] Device is not connected," 
+                                       + "can't send command.\n")
         
     def OnWrite(self, event):
         """
@@ -389,7 +447,9 @@ class MainFrame(wx.Frame):
         Args:
             event (EVT_SERIALWE): Serial writing error.
         """
-        self._currentUI.OnResponse("[System] Error while writing on the device. Error: " + str(event.data) + "\n")
+        self._currentUI.OnResponse("[System] Error while writing" 
+                                   + "on the device. Error: " 
+                                   + str(event.data) + "\n")
         
     def OnReadError(self, event):
         """
@@ -401,7 +461,10 @@ class MainFrame(wx.Frame):
         Args:
             event (EVT_SERIALRE): Serial read error. 
         """
-        self._currentUI.OnResponse("[System] Error while reading from the device. Error: " + str(event.data) + "\n")
+        self._currentUI.OnResponse("[System] Error while reading from" 
+                                   + "the device. Error: " 
+                                   + str(event.data) 
+                                   + "\n")
         
     # Device status checking    
     def OnConnectionError(self, event):
@@ -427,7 +490,8 @@ class MainFrame(wx.Frame):
         Args:
             event (EVT_SERIALC): Device connection event.
         """
-        self._statusBar.SetStatusText("Device port: " + self._deviceInstance.get_port(), 1)
+        self._statusBar.SetStatusText("Device port: " 
+                                      + self._deviceInstance.get_port(), 1)
         dlg = wx.MessageDialog(self, "Device connected!")
         dlg.ShowModal()
         dlg.Destroy()    
@@ -615,7 +679,13 @@ class MainFrame(wx.Frame):
         """
         # Create a dialog to get the file to open
         dirName = ''
-        dlg = wx.FileDialog(self, "Choose file", dirName, "", "*.*", wx.FD_OPEN)
+        dlg = wx.FileDialog(self,
+                            "Choose file",
+                            dirName, 
+                            "", 
+                            "*.*", 
+                            wx.FD_OPEN)
+
         if dlg.ShowModal() == wx.ID_OK:
             fileName = dlg.GetFilename()
             dirName = dlg.GetDirectory()
@@ -646,7 +716,13 @@ class MainFrame(wx.Frame):
             event (EVT_MENU): Event produced by a menu
         """
         # Create dialog
-        dlg = wx.FileDialog(self, "Save file with name...", "", "", "*.*", wx.FD_SAVE)
+        dlg = wx.FileDialog(self, 
+                            "Save file with name...", 
+                            "", 
+                            "", 
+                            "*.*", 
+                            wx.FD_SAVE)
+
         if dlg.ShowModal() == wx.ID_OK:
             # Retrieve data from dialog
             fileName = dlg.GetFilename()
