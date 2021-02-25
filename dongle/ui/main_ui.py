@@ -1,7 +1,7 @@
 """MainFrame file.
 
 This file contains the class MainFrame, which inherits from
-wx.Frame. This class manages the connection between the app 
+wx.Frame. MainFrame manages the connection between the app 
 itself, the USB device and the OS, displaying messages when
 needed and notifying events. 
 """
