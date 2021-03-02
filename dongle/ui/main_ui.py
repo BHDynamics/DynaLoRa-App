@@ -9,6 +9,7 @@ needed and notifying events.
 import os
 from datetime import datetime
 import webbrowser
+import platform
 
 # Third parties imports
 import wx
@@ -84,6 +85,13 @@ class MainFrame(wx.Frame):
                           title=file["title"], 
                           size=(file["size"]["x"], 
                           file["size"]["y"]))
+
+        dataPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ),
+                           '..', 'data/cnf'))
+        bitmap = wx.Bitmap(os.path.join(dataPath, "banner.png"))
+        splash = wx.adv.SplashScreen(bitmap,
+                                     wx.adv.SPLASH_CENTER_ON_SCREEN | wx.adv.SPLASH_TIMEOUT,
+                                     1500, self)
         
         # Try to connect to a device
         # This is done first to activate some options
@@ -112,7 +120,14 @@ class MainFrame(wx.Frame):
                                           + self._deviceInstance.get_port(), 
                                           1)
         
+        icon = wx.EmptyIcon()
+        icoPath = os.path.join(path, "data/cnf/bhDynamics.ico")
+        icon.CopyFromBitmap(wx.Bitmap(icoPath, wx.BITMAP_TYPE_ANY))
+        self.SetIcon(icon)
+
+        splash.Show()
         self.Show()
+        self.Maximize(True)
         
         
     def __create_menu_bar(self, urls):
@@ -191,8 +206,8 @@ class MainFrame(wx.Frame):
         
         # Create dongle tutorial button
         dongleTutorial = tutorialMenu.Append(wx.ID_ANY, 
-                                             "&Dongle", 
-                                             "Access dongle programming" 
+                                             "&DynaLoRa", 
+                                             "Access dynaLoRa programming" 
                                              + "tutorials")
         self.Bind(wx.EVT_MENU,
                   lambda evt, 
@@ -644,7 +659,7 @@ class MainFrame(wx.Frame):
         wxPython Vers: {wx}\n
         Python Vers: {pyth}\n
         """.format(
-            OS=self._appInfo["OS"],
+            OS=str(platform.system()) + " " + str(platform.release()),
             comm=self._appInfo["Commit"],
             date=self._appInfo["Date"],
             wx=self._appInfo["wxPython"],

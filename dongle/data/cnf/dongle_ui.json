@@ -8,34 +8,51 @@
   },
   "buttons": [
     {
+      "auto": 1,
       "command": "REBOOT",
       "txt": "RBT",
-      "byte": "04"
+      "byte": "04",
+      "param": "1"
     },
     {
+      "auto": 0,
       "command": "TX",
       "txt": "TX",
       "byte": "FFFF"
     },
     {
+      "auto": 0,
       "command": "PLD_Q",
       "txt": "PLQ",
       "byte": "FFFF"
     },
     {
+      "auto": 1,
       "command": "TX_Q",
       "txt": "TXQ",
-      "byte": "FFFF"
+      "byte": "FFFF",
+      "param": "1"
     },
     {
+      "auto": 1,
       "command": "F_Q",
       "txt": "FQ",
-      "byte": "FFFF"
+      "byte": "FFFF",
+      "param": "1"
     },
     {
+      "auto": 1,
       "command": "RX",
-      "txt": "RX",
-      "byte": "FFFF"
+      "txt": "RX_ON",
+      "byte": "FFFF",
+      "param": "1"
+    },
+    {
+      "auto": 1,
+      "command": "RX",
+      "txt": "RX_OFF",
+      "byte": "FFFF",
+      "param": "0"
     }
   ],
   "input": {

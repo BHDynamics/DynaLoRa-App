@@ -18,9 +18,6 @@ from dongle.utils.file_manager import Opener
 from dongle.utils.trace import Trace
 import dongle.utils.events as ev
 
-dataPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ),
-                           '..', 'data/cnf'))
-
 class BasicUI:
     """
     This class is the basic UI to 
@@ -38,6 +35,8 @@ class BasicUI:
     _confFile = ""
     _window = None
     _conf = None
+    _dataPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ),
+                           '..', 'data/cnf'))
     
     # Panel
     _mainPanel: wx.Panel = None
@@ -50,7 +49,7 @@ class BasicUI:
     # TextCTRLS
     _commandNameCtrl: wx.TextCtrl = None
     _commandParamsCtrl: wx.TextCtrl = None
-    _logCtrl: stc.StyledTextCtrl = None
+    _logCtrl: wx.TextCtrl = None
     
     # Buttons
     _sendButton: wx.Button = None
@@ -73,7 +72,7 @@ class BasicUI:
         self._window = mainWin
         
         # First open configuration file
-        self._conf = self._fOpener.OpenJSONFile(dataPath, self._confFile)
+        self._conf = self._fOpener.OpenJSONFile(self._dataPath, self._confFile)
         
         # Create UI
         self._mainPanel = wx.Panel(mainWin, wx.ID_ANY, pos=(x, y), 
@@ -94,9 +93,9 @@ class BasicUI:
         Args:
             line (str): Line to write on the log.
         """
-        self._logCtrl.SetReadOnly(False)
+        #self._logCtrl.SetReadOnly(False)
         self._logCtrl.write(newLine)
-        self._logCtrl.SetReadOnly(True)
+        #self._logCtrl.SetReadOnly(True)
         self._logCtrl.ScrollLines(1)
 #endregion  
    
@@ -184,12 +183,12 @@ class BasicUI:
         
         # Add console and Log
         self._logSizer = wx.BoxSizer(wx.HORIZONTAL)
-        self._logCtrl = stc.StyledTextCtrl(self._mainPanel, 
+        self._logCtrl = wx.TextCtrl(self._mainPanel, 
                                            wx.ID_ANY, 
                                            style=wx.TE_READONLY 
                                            | wx.TE_MULTILINE | wx.TE_RICH, 
                                            name=stc.STCNameStr)
-        self._logCtrl.SetReadOnly(True)
+        #self._logCtrl.SetReadOnly(True)
         self._logSizer.Add(self._logCtrl, proportion=1, flag=wx.EXPAND)
         self._mainSizer.Add(self._logSizer, 
                             proportion=1, 
@@ -223,26 +222,16 @@ class BasicUI:
         Args:
             event (EVT_BUTTON): Sending button event.
         """
-        if self._currTrace.GetCommand() == "REBOOT":
-            instant = datetime.now()
-            self._currTrace.SetParameters(None)
-            self._currTrace.SetIsString(False)
-            self._currTrace.SetTimeStamp(datetime.timestamp(instant))       
-            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
-                              + "                     " 
-                              + instant.strftime("%Y-%M-%D %H:%M:%S") 
-                              + "\n") 
-        else:
-            text = self._commandParamsCtrl.GetLineText(0)
-            instant = datetime.now()
-            self._currTrace.SetParameters(text)
-            self._currTrace.SetIsString(self._traceType.GetValue()) 
-            self._currTrace.SetTimeStamp(int(datetime.timestamp(instant)))       
-            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
-                              + " (Params): " + self._currTrace.GetParams() 
-                              + "                     " 
-                              + instant.strftime("%Y-%M-%D %H:%M:%S") 
-                              + "\n") 
+        text = self._commandParamsCtrl.GetLineText(0)
+        instant = datetime.now()
+        self._currTrace.SetParameters(text)
+        self._currTrace.SetIsString(self._traceType.GetValue()) 
+        self._currTrace.SetTimeStamp(int(datetime.timestamp(instant)))       
+        self.__write_line("[Out]: " + self._currTrace.GetCommand() 
+                            + " (Params): " + self._currTrace.GetParams() 
+                            + "                     " 
+                            + instant.strftime("%Y-%M-%D %H:%M:%S") 
+                            + "\n") 
         self._window.WriteDevice(self._currTrace)
         
     def OnResponse(self, newLine):
@@ -268,7 +257,34 @@ class BasicUI:
 #region Log Data
     #------------------------------------------------
     #-----------------Data Handling------------------
-    #------------------------------------------------  
+    #------------------------------------------------
+
+    def AutoSendCommand(self):
+        """Auto-sending a command. 
+
+        This function sends a command directly to the dongle, without
+        updating the input log and all. Creates the different parameters 
+        needed and sends it. 
+        """
+        if self._currTrace.GetCommand() == "REBOOT":
+            instant = datetime.now()
+            self._currTrace.SetParameters(None)
+            self._currTrace.SetIsString(False)
+            self._currTrace.SetTimeStamp(datetime.timestamp(instant))       
+            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
+                                + "                     " 
+                                + instant.strftime("%Y-%M-%D %H:%M:%S") 
+                                + "\n")  
+        else:
+            instant = datetime.now()
+            self._currTrace.SetIsString(True)
+            self._currTrace.SetTimeStamp(datetime.timestamp(instant))       
+            self.__write_line("[Out]: " + self._currTrace.GetCommand() 
+                              + "                     " 
+                              + instant.strftime("%Y-%M-%D %H:%M:%S") 
+                              + "\n")
+
+        self._window.WriteDevice(self._currTrace)
     
     def ClearLog(self):
         """Clearing log method.
@@ -276,7 +292,7 @@ class BasicUI:
         Clears all data currently in the Log. Sets it's value
         to " " and updates. 
         """
-        self._logCtrl.SetValue(" ")
+        self._logCtrl.Remove(0, self._logCtrl.GetLastPosition())
     
     def LoadLog(self, data):
         """Load Log with data

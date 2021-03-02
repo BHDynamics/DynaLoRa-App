@@ -1,14 +1,13 @@
 {
-    "title": "Dongle App",
+    "title": "DynaLoRa App",
     "size":{
         "x": 1280,
         "y": 720
     },
     "info":{
-        "vers": "alpha v0.1",
-        "OS": "Windows",
+        "vers": "alpha v1.0",
         "Commit": "ea58978",
-        "Date": "29-01-2021",
+        "Date": "26-02-2021",
         "wxPython": "4.1.1 msw (phoenix) wxWidgets 3.1.5",
         "Python": "3.6.8",
         "web": "https://www.bhdynamics.info/"

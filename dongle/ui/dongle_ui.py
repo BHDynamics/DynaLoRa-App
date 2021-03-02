@@ -6,6 +6,7 @@ buttons and binds them to their events and functions.
 """
 # Standard imports
 import math
+import os
 
 # Third party libraries
 import wx
@@ -28,7 +29,15 @@ class Dongle(bUI.BasicUI):
     """
 #region Variables
     # Sizers
+    _logoCtrl = None
+    _imagePath = None
+    _buttonSizer: wx.BoxSizer = None
     _buttonGrid: wx.GridSizer = None
+    _imageSizer: wx.BoxSizer = None
+    _logo: wx.Image = None
+    _imgH, _imgW = None, None
+    _refSize: wx.Size = None
+    _sizerRefW, _sizerRefH = None, None
 #endregion
     
 #region Construction
@@ -54,7 +63,7 @@ class Dongle(bUI.BasicUI):
         """
         self._confFile = "dongle_ui.json"
         super().__init__(mainWin, x, y, w, h)
-        
+
         # Create connection status data
         
         # Create buttons
@@ -65,17 +74,32 @@ class Dongle(bUI.BasicUI):
         self._mainSizer.Add(tBox, flag=wx.LEFT | wx.TOP, 
                             border=self._conf["input"]["padding"])
         self._mainSizer.Add((-1, 5))
+
+        cols = None 
+        rows = None
         
-        cols = self._conf["buttonsPerRaw"]
-        rows = math.ceil(len(self._conf["buttons"]) / cols)
+        if len(self._conf["buttons"]) < self._conf["buttonsPerRaw"]:
+            cols = len(self._conf["buttons"])
+            rows = 1
+        else:
+            cols = self._conf["buttonsPerRaw"]
+            rows = math.ceil(len(self._conf["buttons"]) / cols)
+
+        self._buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+
         self._buttonGrid = wx.GridSizer(rows, cols, self._conf["verticalGap"], 
                                         self._conf["horizontalGap"])
         self.__place_buttons(self._conf["buttonsSize"], self._conf["buttons"])
         
-        self._mainSizer.Add(self._buttonGrid, 
-                            flag=wx.RIGHT | wx.LEFT | wx.EXPAND, 
+        # Sizers generales
+        self._buttonSizer.Add(self._buttonGrid, 
+                             flag=wx.RIGHT | wx.EXPAND, 
+                             border=self._conf["log"]["padding"])
+
+        self._mainSizer.Add(self._buttonSizer, 
+                            flag=wx.LEFT | wx.EXPAND, 
                             border=self._conf["log"]["padding"])
-        
+
         self._mainSizer.Add((-1, 10))
         
         # Create parameters and sending box
@@ -96,6 +120,7 @@ class Dongle(bUI.BasicUI):
         # Add BoxSizer to panel
         #self._mainPanel.SetSizer(self._mainSizer)
         self._mainPanel.SetSizerAndFit(self._mainSizer)
+        # self.OnResize(None)
         
     def __place_buttons(self, bSize, buttons):
         """
@@ -114,8 +139,13 @@ class Dongle(bUI.BasicUI):
             nButton = wx.Button(self._mainPanel, label=b["txt"], 
                                 size=(bSize["w"], bSize["h"]))
             
+            # Set if the command is auto send
+            if b["auto"] == 1:
+                sendData = [True, b["command"], b["byte"], b["param"]]
+            else:
+                sendData = [False, b["command"], b["byte"]]
+            
             # Bind it 
-            sendData = [b["command"], b["byte"]]
             self._window.Bind(wx.EVT_BUTTON, 
                               lambda evt, 
                               temp=sendData: self.OnCommandButtonClick(evt, temp),
@@ -148,16 +178,21 @@ class Dongle(bUI.BasicUI):
         # For the moment this function is still here but can be moved 
         # to other class
         # Update current trace data
-        self._currTrace.SetCommand(data[0])
-        self._currTrace.SetCommandCode(bytes.fromhex(data[1]))
-        
-        # Modify the input terminal.
-        self._commandNameCtrl.SetValue("")
-        self._commandNameCtrl.SetValue(data[0])
-        
-        self._commandParamsCtrl.SetValue("")
-        self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
-                
+        self._currTrace.SetCommand(data[1])
+        self._currTrace.SetCommandCode(bytes.fromhex(data[2]))
+
+        if data[0]:
+            # Auto send is on
+            self._currTrace.SetParameters(data[3])
+            self.AutoSendCommand()
+        else:        
+            # Modify the input terminal.
+            self._commandNameCtrl.SetValue("")
+            self._commandNameCtrl.SetValue(data[1])
+            
+            self._commandParamsCtrl.SetValue("")
+            self._traceType.SetValue(wx.CheckBoxState(wx.CHK_CHECKED))
+            
     #------------------------------------------------
     #----------------Event Handling------------------
     #------------------------------------------------

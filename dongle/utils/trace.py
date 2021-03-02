@@ -93,7 +93,7 @@ class Trace:
         Args:
             t (timestamp): Epoch Unix timestamp
         """
-        self.__timestamp = t
+        self.__timestamp = int(t)
     
     #------------------------------------------------
     #--------------------Setters---------------------
