@@ -9,7 +9,7 @@ echo %building%
 pyinstaller run.spec
 
 Rem Move generated exe to EXES folder and remove temporal files
-copy dist\dongle-app.exe EXES\win\
+copy dist\dynaLoRa-App.exe EXES\win\
 
 del /s /f /q build\*.*
 for /f %%f in ('dir /ad /b build\') do rd /s /q build\%%f

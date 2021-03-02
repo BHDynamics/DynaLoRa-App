@@ -7,7 +7,7 @@ block_cipher = None
 a = Analysis(['run.py'],
            pathex=[],
            binaries=[],
-           datas=[('./dongle/data/cnf/app.json', './dongle/data/cnf/'), ('./dongle/data/cnf/dongle_ui.json', './dongle/data/cnf/'), ('./dongle/data/cnf/bhDynamics.ico', './dongle/data/cnf/')],
+           datas=[('./dongle/data/cnf/app.json', './dongle/data/cnf/'), ('./dongle/data/cnf/dongle_ui.json', './dongle/data/cnf/'), ('./dongle/data/cnf/bhDynamics.ico', './dongle/data/cnf/'), ('./dongle/data/cnf/banner.png', './dongle/data/cnf/')],
            hiddenimports=['uuid', 'time', 'decimal', 'serial', 'threading'],
            hookspath=[],
            runtime_hooks=[],
@@ -25,7 +25,7 @@ exe = EXE(pyz,
          a.binaries,
          a.zipfiles,
          a.datas,
-         name='dongle-app',
+         name='dynaLoRa-App',
          debug=False,
          strip=False,
          icon='bhDynamics.ico',
@@ -36,7 +36,8 @@ exe = EXE(pyz,
 if platform.system() == 'Darwin':
     info_plist = {'addition_prop': 'additional_value'}
     app = BUNDLE(exe,
-                 name='dynalora.app',
+                 name='dynaLoRa-App.app',
                  bundle_identifier=None,
+                 icon='logo.icns'
                  info_plist=info_plist
                  )
