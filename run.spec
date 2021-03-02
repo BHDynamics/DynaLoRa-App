@@ -38,6 +38,6 @@ if platform.system() == 'Darwin':
     app = BUNDLE(exe,
                  name='dynaLoRa-App.app',
                  bundle_identifier=None,
-                 icon='logo.icns'
+                 icon='logo.icns',
                  info_plist=info_plist
                  )
