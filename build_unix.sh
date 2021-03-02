@@ -5,7 +5,7 @@ python3 setup.py
 python3 -m PyInstaller run.spec
 
 # Then move and copy files
-cp dist/dynaLoRa-App EXES/raspi/
+cp dist/dongle-app EXES/raspi/
 
 # Now remove temporary files
 rm -R dist
