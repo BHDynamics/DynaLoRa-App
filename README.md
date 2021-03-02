@@ -44,16 +44,21 @@ information in the "dongle_ui.json". The format is simple:
 
 ```
 {
+    "auto": 1,
     "command": "RX",
     "txt": "RX",
-    "byte": "FFFF"
+    "byte": "FFFF",
+    "param": "0"
 }
 ```
 
-The `command` field is for the command name and the string that will be sent to the 
-device to execute that command. The `txt` field is for the text that will be shown 
-later in the button. The `byte` field is for sending byte-codified traces, this will
-be the byte that is going to identify the command. 
+The `auto` field is for setting the command to auto send it self. The `command` field 
+is for the command name and the string that will be sent to the device to execute that 
+command. The `txt` field is for the text that will be shown later in the button. The 
+`byte` field is for sending byte-codified traces, this will be the byte that is going 
+to identify the command. Finally, the `param` field is the parameter that a command 
+needs to be auto send completely. The app will read this field and use to send the 
+command to the device. 
 
 If some modification os going to be added to the app, consult the documentation
 provided at **Not ready yet**. 
