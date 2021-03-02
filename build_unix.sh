@@ -4,6 +4,10 @@ python3 setup.py
 # Then build app
 python3 -m PyInstaller run.spec
 
+cd dist
+ls
+cd ../
+
 # Then move and copy files
 cp dist/dongle-app EXES/raspi/
 
