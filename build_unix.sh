@@ -9,7 +9,7 @@ ls
 cd ../
 
 # Then move and copy files
-cp dist/dongle-app EXES/raspi/
+cp dist/dynaLoRa-App EXES/raspi/
 
 # Now remove temporary files
 rm -R dist
